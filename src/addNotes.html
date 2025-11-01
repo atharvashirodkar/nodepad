@@ -88,15 +88,13 @@
     <div class="container">
         <button onclick="location.href='/'">Go Back</button>
         <h2>Add a New Note</h2>
-        <form action="">
+        <form action="/save-note" method="POST">
             <h3>Title</h3>
-            <input type="text" class="noteTitle" />
+            <input type="text" name="noteTitle" class="noteTitle" required />
             <h3>Body</h3>
-            <textarea class="noteBody" cols="30" rows="10"></textarea>
+            <textarea name="noteBody" class="noteBody" cols="30" rows="10" required></textarea>
             <br />
-            <button type="submit" class="saveNoteBtn" onclick="location.href='/'">
-                Save Note
-            </button>
+            <button type="submit" class="saveNoteBtn">Save Note</button>
         </form>
     </div>
 </body>
