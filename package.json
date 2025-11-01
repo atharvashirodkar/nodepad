@@ -1,7 +1,7 @@
 {
-  "name": "project",
+  "name": "nodepad",
   "version": "1.0.0",
-  "description": "Website Using Only Node Js",
+  "description": "Notes Taking Website Using Only Node Js",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -9,6 +9,8 @@
     "server": "nodemon server.js"
   },
   "keywords": [
+    "notepad",
+    "nodepad",
     "Website",
     "NodeJs-Website"
   ],
