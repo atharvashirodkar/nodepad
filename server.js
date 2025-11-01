@@ -11,31 +11,14 @@ const server = http.createServer((req, res) => {
     "/": "index.html",
     "/about": "about.html",
     "/addNotes": "addNotes.html",
-    "*": "errorPage.html"
   };
 
-  const filePath = routes[req.url];
-  console.log("filepath: ",filePath);
-  
+  const reqPath = req.url.split("?")[0].replace(/\/$/, "") || "/";
+  const fileName = routes[reqPath] || "errorPage.html";
+
+  const filePath = path.join(__dirname, "src", fileName);
+
   if (filePath) {
-    fs.readFile(filePath, (err, data) => {
-      if (err) {
-        res.statusCode = 500;
-        return res.end("Error loading page");
-      }
-      res.end(data);
-    });
-  }
-  else if (filePath) {
-    fs.readFile(filePath, (err, data) => {
-      if (err) {
-        res.statusCode = 500;
-        return res.end("Error loading page");
-      }
-      res.end(data);
-    });
-  }
-  else if (filePath) {
     fs.readFile(filePath, (err, data) => {
       if (err) {
         res.statusCode = 500;
@@ -51,17 +34,6 @@ const server = http.createServer((req, res) => {
       console.error('Error creating folder:', err);
       return;
     }
-
-    const filePath = path.join(folderName, 'notes1.txt');
-
-    fs.writeFile(filePath, 'This is a sample.', (err) => {
-      if (err) {
-        console.error('Error writing file:', err);
-        return;
-      }
-
-      console.log('✅ File "notes1.txt" has been saved inside the "notes" folder!');
-    });
   });
 });
 
