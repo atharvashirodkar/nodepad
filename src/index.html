@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website With NodeJs</title>
+    <style>
+        body {
+            font-family: system-ui, sans-serif;
+            background: #f5f6fa;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            display: flex;
+            justify-content: center;
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 900px;
+            height: 100vh;
+            padding: 20px 0px;
+            box-sizing: border-box; 
+        }
+
+        /* HEADER */
+        .app-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #fff;
+            padding: 15px 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            margin-bottom: 30px;
+        }
+
+        .logo {
+            margin: 0;
+            font-size: 24px;
+            color: #007bff;
+        }
+
+        .nav-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        button {
+            border: none;
+            padding: 10px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.2s ease;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        .add-note-btn {
+            background: #007bff;
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .nav-actions button:first-child {
+            background: #95a5a6;
+            color: #fff;
+        }
+
+        /* NOTES SECTION */
+        .notes-section h2 {
+            margin-bottom: 15px;
+            color: #222;
+        }
+
+        .notes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .note-card {
+            background: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        .note-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .note-title {
+            margin: 0 0 10px;
+            font-size: 18px;
+            color: #007bff;
+        }
+
+        .note-body {
+            flex-grow: 1;
+            font-size: 14px;
+            color: #555;
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+
+        .view-note {
+            align-self: flex-end;
+            background: #2ecc71;
+            color: #fff;
+        }
+
+        .view-note:hover {
+            background: #27ae60;
+        }
+
+        /* FOOTER */
+        .app-footer {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 13px;
+            color: #777;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app-container">
+        <header class="app-header">
+            <h1 class="logo">Notes Taking App</h1>
+            <nav class="nav-actions">
+                <button onclick="location.href='/about'">About</button>
+                <button class="add-note-btn" onclick="location.href='/addNotes'">Add Note</button>
+            </nav>
+        </header>
+
+        <main class="notes-section">
+            <h2>Your Notes</h2>
+            <div class="notes-grid">
+                <!-- Example Notes Card  -->
+                <div class="note-card">
+                    <h3 class="note-title">Meeting Notes</h3>
+                    <p class="note-body">
+                        Discussed Q1 targets and design updates. Next review in two weeks.
+                    </p>
+                    <button class="view-note">View</button>
+                </div>
+            </div>
+        </main>
+
+        <footer class="app-footer">
+            <p>&copy; 2025 Notes Taking App. All rights reserved.</p>
+        </footer>
+    </div>
+</body>
+
+
+</html>
