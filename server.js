@@ -4,6 +4,38 @@ const path = require('path');
 const port = process.env.PORT || 5000;
 
 const server = http.createServer((req, res) => {
+  // Handle POST request for saving notes
+  if (req.method === 'POST' && req.url === '/save-note') {
+    let body = '';
+    
+    req.on('data', chunk => body += chunk.toString());
+    
+    req.on('end', () => {
+      const params = new URLSearchParams(body);
+      const title = params.get('noteTitle');
+      const noteBody = params.get('noteBody');
+      
+      const folderName = path.join(__dirname, 'notes');
+      fs.mkdirSync(folderName, { recursive: true });
+      
+      const sanitizedTitle = title.replace(/[^a-z0-9]/gi, '_').toLowerCase();
+      const filePath = path.join(folderName, `${sanitizedTitle}.txt`);
+      
+      fs.writeFile(filePath, noteBody, (err) => {
+        if (err) {
+          res.statusCode = 500;
+          return res.end('Error saving note');
+        }
+        
+        res.statusCode = 302;
+        res.setHeader('Location', '/');
+        res.end();
+      });
+    });
+    return;
+  }
+
+  // Serve HTML files for GET requests
   res.statusCode = 200;
   res.setHeader('Content-Type', 'text/html');
 
@@ -18,22 +50,12 @@ const server = http.createServer((req, res) => {
 
   const filePath = path.join(__dirname, "src", fileName);
 
-  if (filePath) {
-    fs.readFile(filePath, (err, data) => {
-      if (err) {
-        res.statusCode = 500;
-        return res.end("Error loading page");
-      }
-      res.end(data);
-    });
-  }
-
-  const folderName = path.join(__dirname, 'notes');
-  fs.mkdir(folderName, { recursive: true }, (err) => {
+  fs.readFile(filePath, (err, data) => {
     if (err) {
-      console.error('Error creating folder:', err);
-      return;
+      res.statusCode = 500;
+      return res.end("Error loading page");
     }
+    res.end(data);
   });
 });
 
