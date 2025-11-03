@@ -1,6 +1,7 @@
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
+const url = require('url'); // Add this
 const port = process.env.PORT || 5000;
 
 const server = http.createServer((req, res) => {
@@ -18,7 +19,8 @@ const server = http.createServer((req, res) => {
       const folderName = path.join(__dirname, 'notes');
       fs.mkdirSync(folderName, { recursive: true });
 
-      const sanitizedTitle = title.replace(/[^a-z0-9]/gi, '_').toLowerCase();
+      // Better filename sanitization
+      const sanitizedTitle = title.replace(/[^a-z0-9\s-]/gi, '_').replace(/\s+/g, '_').toLowerCase();
       const filePath = path.join(folderName, `${sanitizedTitle}.txt`);
 
       fs.writeFile(filePath, noteBody, (err) => {
@@ -43,6 +45,7 @@ const server = http.createServer((req, res) => {
     "/": "index.html",
     "/about": "about.html",
     "/addNotes": "addNotes.html",
+    "/viewNote": "viewNote.html" // Keep this in routes
   };
 
   const reqPath = req.url.split("?")[0].replace(/\/$/, "") || "/";
@@ -55,27 +58,29 @@ const server = http.createServer((req, res) => {
       res.statusCode = 500;
       return res.end("Error loading page");
     }
+
     if (reqPath === "/") {
       let html = data.toString();
 
       // Read notes from folder
       const notesFolder = path.join(__dirname, 'notes');
       let notesHTML = '';
-
       // Check if notes folder exists
       if (fs.existsSync(notesFolder)) {
         const files = fs.readdirSync(notesFolder);
         const txtFiles = files.filter(file => file.endsWith('.txt'));
 
-        txtFiles.forEach(file => {
+        txtFiles.forEach((file, index) => {
           const notePath = path.join(notesFolder, file);
           const content = fs.readFileSync(notePath, 'utf8');
           const title = file.replace('.txt', '').replace(/_/g, ' ');
+          const preview = content.length > 200 ? content.substring(0, 200) + '...' : content;
 
           notesHTML += `
-            <div class="note-card">
+            <div class="note-card" id="${index + 1}">
               <h3 class="note-title">${title}</h3>
-              <p class="note-body">${content}</p>
+              <p class="note-body">${preview}</p>
+              <button class="view-note" onclick="location.href='/viewNote?id=${index + 1}'">View</button>
             </div>
           `;
         });
@@ -91,6 +96,44 @@ const server = http.createServer((req, res) => {
 
       return res.end(html);
     }
+    else if (reqPath === "/viewNote") {
+      let html = data.toString();
+
+      // Parse the URL to get the note ID
+      const parsedUrl = url.parse(req.url, true);
+      const noteId = parsedUrl.query.id;
+
+      let noteContent = '<p class="no-notes">Note not found</p>';
+      let noteTitle;
+
+      if (noteId) {
+        const notesFolder = path.join(__dirname, 'notes');
+        if (fs.existsSync(notesFolder)) {
+          const files = fs.readdirSync(notesFolder);
+          const txtFiles = files.filter(file => file.endsWith('.txt'));
+
+          if (txtFiles[noteId - 1]) {
+            const notePath = path.join(notesFolder, txtFiles[noteId - 1]);
+            
+            const content = fs.readFileSync(notePath, 'utf8');
+            noteTitle = txtFiles[noteId - 1].replace('.txt', '').replace(/_/g, ' ');
+            noteContent = `
+              <header class="note-header">
+                <h1 class="note-title">Title: ${noteTitle}</h1>
+              </header>
+              <article class="note-content">
+                <p>${content}</p>
+              </article>
+            `;
+          }
+        }
+      }
+
+      // Replace comment in viewNote.html with actual content
+      html = html.replace('<!-- NOTE_CONTENT -->', noteContent);
+      return res.end(html);
+    }
+
     res.end(data);
   });
 });
