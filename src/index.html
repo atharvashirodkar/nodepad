@@ -6,6 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nodepad</title>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
         body {
             font-family: system-ui, sans-serif;
             background: #f5f6fa;
@@ -21,7 +26,7 @@
             max-width: 900px;
             height: 100vh;
             padding: 20px 0px;
-            box-sizing: border-box; 
+            box-sizing: border-box;
         }
 
         /* HEADER */
@@ -76,6 +81,7 @@
             height: 75vh;
             overflow-x: auto;
         }
+
         .notes-section h2 {
             margin-bottom: 15px;
             padding: 0px 10px;
@@ -96,11 +102,13 @@
             box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
-            max-height: 200px;
-            overflow: auto;
-            overflow-x: hidden;
-            transition: transform 0.15s ease, box-shadow 0.15s ease;
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .note-body {
+            flex: 1;
+            overflow: hidden;
         }
 
         .note-card:hover {
@@ -112,14 +120,6 @@
             margin: 0 0 10px;
             font-size: 18px;
             color: #007bff;
-        }
-
-        .note-body {
-            flex-grow: 1;
-            font-size: 14px;
-            color: #555;
-            line-height: 1.5;
-            margin-bottom: 15px;
         }
 
         .view-note {
@@ -156,14 +156,6 @@
             <h2>Your Notes</h2>
             <div class="notes-grid">
                 <!-- NOTES -->
-                <!-- Example Notes Card  -->
-                <div class="note-card">
-                    <h3 class="note-title">Meeting Notes</h3>
-                    <p class="note-body">
-                        Discussed Q1 targets and design updates. Next review in two weeks.
-                    </p>
-                    <button class="view-note">View</button>
-                </div>
             </div>
         </main>
 
