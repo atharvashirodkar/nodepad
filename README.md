@@ -6,6 +6,10 @@
 
 Nodepad is a minimal Node.js notes website that serves a few static HTML pages and stores notes as plain text files under the `notes/` folder. It uses only Node's built-in `http` and `fs` modules and is intended as a small, educational demo or starting point for simple projects.
 
+## Project Preview (Image)
+<img width="1024" alt="image" src="https://github.com/user-attachments/assets/fb0d6a8c-3ee1-40b3-95cf-594b1b37ab08" />
+
+
 ## 💡 Why this project
 
 - Small surface area and few dependencies — great for learning core Node.js server APIs.
