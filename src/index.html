@@ -78,15 +78,14 @@
 
         /* NOTES SECTION */
         .notes-section {
-            height: 75vh;
-            overflow-x: auto;
+            max-height: 65vh;
+            overflow-y: auto;
+            padding: 10px;
+            margin-top: 10px;
+            background: #f9f9f9;
+            scroll-behavior: smooth;
         }
 
-        .notes-section h2 {
-            margin-bottom: 15px;
-            padding: 0px 10px;
-            color: #222;
-        }
 
         .notes-grid {
             display: grid;
@@ -102,12 +101,6 @@
             box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
             display: flex;
             flex-direction: column;
-            height: 200px;
-            overflow: hidden;
-        }
-
-        .note-body {
-            flex: 1;
             overflow: hidden;
         }
 
@@ -116,21 +109,72 @@
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
 
-        .note-title {
-            margin: 0 0 10px;
-            font-size: 18px;
-            color: #007bff;
+        .noteContent {
+            background: #fff;
+            margin: 5px 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
 
-        .view-note {
-            align-self: flex-end;
-            background: #2ecc71;
+        .note-title {
+            margin: 0 0 8px;
+            font-size: 18px;
+            font-weight: 600;
+            color: #007bff;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .note-body {
+            flex: 1;
+            color: #333;
+            font-size: 14px;
+            line-height: 1.4;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 4;
+            /* show up to 4 lines */
+            -webkit-box-orient: vertical;
+            margin-bottom: 12px;
+        }
+
+        .action-btn {
+            display: flex;
+            justify-content: flex-end;
+            gap: 20px;
+        }
+
+        .action-btn button {
+            border: none;
             color: #fff;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        /* View button */
+        .view-note {
+            background: #2ecc71;
         }
 
         .view-note:hover {
             background: #27ae60;
         }
+
+        /* Delete button */
+        .delete-note {
+            background: #e74c3c;
+        }
+
+        .delete-note:hover {
+            background: #c0392b;
+        }
+
+
 
         /* FOOTER */
         .app-footer {
@@ -152,10 +196,12 @@
             </nav>
         </header>
 
-        <main class="notes-section">
+        <main>
             <h2>Your Notes</h2>
-            <div class="notes-grid">
-                <!-- NOTES -->
+            <div class="notes-section">
+                <div class="notes-grid">
+                    <!-- NOTES -->
+                </div>
             </div>
         </main>
 
