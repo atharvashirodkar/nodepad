@@ -78,9 +78,14 @@ const server = http.createServer((req, res) => {
 
           notesHTML += `
             <div class="note-card" id="${index + 1}">
+              <div class="noteContent">
               <h3 class="note-title">${title}</h3>
               <p class="note-body">${preview}</p>
+              </div>
+              <div class="action-btn">
+              <button class="delete-note" onclick="location.href='/deleteNote?id=${index + 1}'">Delete</button>
               <button class="view-note" onclick="location.href='/viewNote?id=${index + 1}'">View</button>
+              </div>
             </div>
           `;
         });
@@ -114,7 +119,7 @@ const server = http.createServer((req, res) => {
 
           if (txtFiles[noteId - 1]) {
             const notePath = path.join(notesFolder, txtFiles[noteId - 1]);
-            
+
             const content = fs.readFileSync(notePath, 'utf8');
             noteTitle = txtFiles[noteId - 1].replace('.txt', '').replace(/_/g, ' ');
             noteContent = `
