@@ -4,87 +4,213 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About</title>
+    <title>About - Notes App</title>
     <style>
-        body {
-            font-family: system-ui, sans-serif;
-            background: #f5f6fa;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
+        * {
             margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            background: #f8fafc;
+            color: #334155;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .container {
-            background: #fff;
-            padding: 30px 40px;
-            border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            width: 90%;
-            height: auto;
             max-width: 600px;
+            width: 100%;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            overflow: hidden;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #af49ffbf, #31aaff);
+            color: white;
+            padding: clamp(1.5rem, 5vw, 1.5rem);
             text-align: center;
         }
 
         .header h1 {
-            color: #222;
-            font-size: 26px;
-            margin-bottom: 20px;
-            border-bottom: 2px solid #007bff;
-            display: inline-block;
-            padding-bottom: 5px;
+            font-size: clamp(1.5rem, 4vw, 1.875rem);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            font-size: clamp(0.9rem, 2.5vw, 1rem);
+        }
+
+        .content {
+            padding: clamp(1.5rem, 4vw, 2rem);
         }
 
         .content p {
-            color: #555;
-            font-size: 16px;
-            line-height: 1.6;
-            margin-bottom: 30px;
+            color: #475569;
+            font-size: clamp(0.9rem, 2.5vw, 1rem);
         }
 
-        button {
-            background: #007bff;
-            color: #fff;
+        .features {
+            background: #f1f5f9;
+            padding: clamp(1rem, 3vw, 1rem);
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+
+        .features h3 {
+            color: #1e293b;
+            font-size: clamp(1.1rem, 3vw, 1.25rem);
+        }
+
+        .features ul {
+            list-style: none;
+        }
+
+        .features li {
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+            font-size: clamp(0.85rem, 2.5vw, 0.95rem);
+        }
+
+        .features li:before {
+            content: "•";
+            color: #3b82f6;
+            position: absolute;
+            left: 0.5rem;
+        }
+
+        .tech {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin: 1rem 0;
+        }
+
+        .tech span {
+            background: #e0f2fe;
+            color: #0369a1;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: clamp(0.75rem, 2vw, 0.875rem);
+            font-weight: 500;
+        }
+
+        .actions {
+            text-align: center;
+            margin-top: 1.5rem;
+        }
+
+        .btn {
+            background: #3b82f6;
+            color: white;
+            padding: clamp(0.6rem, 2vw, 0.75rem) clamp(1.5rem, 4vw, 2rem);
             border: none;
-            padding: 10px 20px;
             border-radius: 6px;
-            font-size: 15px;
+            font-size: clamp(0.9rem, 2.5vw, 1rem);
+            font-weight: 500;
             cursor: pointer;
-            transition: background 0.2s ease;
+            transition: background 0.2s;
+            width: 100%;
+            max-width: 200px;
         }
 
-        button:hover {
-            background: #005fcc;
+        .btn:hover {
+            background: #2563eb;
         }
 
         .footer {
-            margin-top: 25px;
-            border-top: 1px solid #e0e0e0;
-            padding-top: 15px;
+            background: #f1f5f9;
+            padding: clamp(1rem, 3vw, 1rem);
+            text-align: center;
+            color: #64748b;
+            border-top: 1px solid #e2e8f0;
+            font-size: clamp(0.8rem, 2.5vw, 0.9rem);
         }
 
-        .footer p {
-            font-size: 13px;
-            color: #777;
-            margin: 0;
+        /* Mobile-specific adjustments */
+        @media (max-width: 480px) {
+            body {
+                padding: 0.5rem;
+            }
+
+            .container {
+                border-radius: 8px;
+            }
+
+            .features li {
+                padding-left: 1.25rem;
+            }
+
+            .features li:before {
+                left: 0.25rem;
+            }
+
+            .tech {
+                gap: 0.375rem;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .btn {
+                width: 40vw;
+            }
+        }
+
+        /* Large screen adjustments */
+        @media (min-width: 1200px) {
+            .container {
+                max-width: 700px;
+            }
         }
     </style>
-
 </head>
 
 <body>
     <div class="container">
         <div class="header">
-            <h1>About This App</h1>
+            <h1>About Nodepad</h1>
         </div>
         <div class="content">
-            <p>This Notes Taking App is built using Node.js and serves as a simple platform to create and manage notes.
-            </p>
-            <button onclick="location.href='/'">Go Back</button>
+            <h2>Nodepad :</h2>
+            <p>Nodepad, A Notes Taking App is built using pure Node.js and serves as a simple platform to create and
+                manage notes efficiently.</p>
+
+            <div class="features">
+                <h3>Features</h3>
+                <ul>
+                    <li>Create and manage text notes</li>
+                    <li>Notes stored as .txt files</li>
+                    <li>Simple and intuitive interface</li>
+                    <li>No external dependencies</li>
+                </ul>
+            </div>
+
+            <p><strong>Technology Stack:</strong></p>
+            <div class="tech">
+                <span>Node.js</span>
+                <span>HTTP Module</span>
+                <span>FS Module</span>
+                <span>HTML5</span>
+                <span>CSS3</span>
+            </div>
+
+            <div class="actions">
+                <button class="btn" onclick="location.href='/'">Back to Notes</button>
+            </div>
         </div>
+
         <div class="footer">
-            <p>&copy; 2025 Notes Taking App. All rights reserved.</p>
+            <p>&copy; 2025 Nodepad - A Notes Taking App</p>
         </div>
     </div>
 </body>
