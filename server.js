@@ -36,6 +36,37 @@ const server = http.createServer((req, res) => {
     });
     return;
   }
+  if (req.method === 'POST' && req.url === '/delete-note') {
+    let body = '';
+    req.on('data', chunk => {
+      body += chunk.toString();
+    });
+    req.on('end', () => {
+      const parsedData = new URLSearchParams(body);
+      const noteId = parsedData.get('noteId');
+
+      if (noteId) {
+        const note = getNoteById(noteId);
+        const title = note.title.replace(/[^a-z0-9\s-]/gi, '_').replace(/\s+/g, '_').toLowerCase();
+        const filePath = path.join(__dirname, 'notes', `${title}.txt`);
+
+        fs.unlink(filePath, (err) => {
+          if (err) {
+            console.error('Error deleting note:', err);
+            res.writeHead(500, { 'Content-Type': 'text/plain' });
+            res.end('Error deleting note');
+          } else {
+            console.log("Deleted the note:", noteId);
+            res.writeHead(302, { 'Location': '/' });
+            res.end();
+          }
+        });
+      } else {
+        res.writeHead(400, { 'Content-Type': 'text/plain' });
+        res.end('Note ID is required');
+      }
+    });
+  }
 
   // Serve HTML files for GET requests
   res.statusCode = 200;
@@ -45,13 +76,52 @@ const server = http.createServer((req, res) => {
     "/": "index.html",
     "/about": "about.html",
     "/addNotes": "addNotes.html",
-    "/viewNote": "viewNote.html" // Keep this in routes
+    "/viewNote": "viewNote.html",
+    "/deleteNote": "deleteNote.html"
   };
 
   const reqPath = req.url.split("?")[0].replace(/\/$/, "") || "/";
   const fileName = routes[reqPath] || "errorPage.html";
 
   const filePath = path.join(__dirname, "src", fileName);
+
+  // Reusable components/function
+  function getNoteById(noteId) {
+    if (!noteId) return null;
+
+    const notesFolder = path.join(__dirname, 'notes');
+    if (!fs.existsSync(notesFolder)) return null;
+
+    const files = fs.readdirSync(notesFolder);
+    const txtFiles = files.filter(file => file.endsWith('.txt'));
+
+    if (!txtFiles[noteId - 1]) return null;
+
+    const notePath = path.join(notesFolder, txtFiles[noteId - 1]);
+    const content = fs.readFileSync(notePath, 'utf8');
+    const title = txtFiles[noteId - 1].replace('.txt', '').replace(/_/g, ' ');
+
+    return {
+      title,
+      content,
+      filename: txtFiles[noteId - 1]
+    };
+  }
+
+  function renderNoteHTML(note) {
+    if (!note) {
+      return '<p class="no-notes">Note not found</p>';
+    }
+
+    return `
+    <header class="note-header">
+      <h1 class="note-title">Title: ${note.title}</h1>
+    </header>
+    <article class="note-content">
+      <p>${note.content}</p>
+    </article>
+  `;
+  }
 
   fs.readFile(filePath, (err, data) => {
     if (err) {
@@ -108,35 +178,41 @@ const server = http.createServer((req, res) => {
       const parsedUrl = url.parse(req.url, true);
       const noteId = parsedUrl.query.id;
 
-      let noteContent = '<p class="no-notes">Note not found</p>';
-      let noteTitle;
-
-      if (noteId) {
-        const notesFolder = path.join(__dirname, 'notes');
-        if (fs.existsSync(notesFolder)) {
-          const files = fs.readdirSync(notesFolder);
-          const txtFiles = files.filter(file => file.endsWith('.txt'));
-
-          if (txtFiles[noteId - 1]) {
-            const notePath = path.join(notesFolder, txtFiles[noteId - 1]);
-
-            const content = fs.readFileSync(notePath, 'utf8');
-            noteTitle = txtFiles[noteId - 1].replace('.txt', '').replace(/_/g, ' ');
-            noteContent = `
-              <header class="note-header">
-                <h1 class="note-title">Title: ${noteTitle}</h1>
-              </header>
-              <article class="note-content">
-                <p>${content}</p>
-              </article>
-            `;
-          }
-        }
-      }
+      const note = getNoteById(noteId);
+      const noteContent = renderNoteHTML(note);
 
       // Replace comment in viewNote.html with actual content
       html = html.replace('<!-- NOTE_CONTENT -->', noteContent);
       return res.end(html);
+    }
+    else if (reqPath == "/deleteNote") {
+      let html = data.toString();
+
+      // Parse the URL to get the note ID
+      const parsedUrl = url.parse(req.url, true);
+      const noteId = parsedUrl.query.id;
+      const note = getNoteById(noteId);
+      if (!note) {
+        noteContent = '<p class="no-notes">Note not found</p>';
+      }
+      console.log(note);
+      console.log(noteId);
+
+      noteContent = `
+         <p class="title"><strong>Title:</strong> ${note.title}</p>
+        <p class="content"><strong>Content:</strong> ${note.content}</p>
+        <div class="action-btn">
+          <button class="view-note" onclick="location.href='/'">Back</button>
+          <form action="/delete-note" method="POST" style="display: inline;">
+            <input type="hidden" name="noteId" value="${noteId}">
+            <button type="submit" class="delete-note">Delete Note</button>
+          </form>
+        </div>
+    `;
+      // Replace comment in viewNote.html with actual content
+      html = html.replace('<!-- NOTE_CONTENT -->', noteContent);
+      return res.end(html);
+
     }
 
     res.end(data);
