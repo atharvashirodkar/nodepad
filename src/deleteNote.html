@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete Note</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #e74c3c;
+            margin-top: 0;
+            text-align: center;
+        }
+
+        .warning {
+            background: #ffeaa7;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            border-left: 4px solid #fdcb6e;
+        }
+
+        .warning strong {
+            color: #e17055;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .warning p {
+            margin: 0;
+            color: #666;
+        }
+
+        .note-card {
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+
+        .note-card p {
+            margin: 12px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .note-card p:last-of-type {
+            border-bottom: none;
+        }
+
+        .note-card strong {
+            color: #2c3e50;
+            display: inline-block;
+            min-width: 80px;
+        }
+
+        .content {
+            flex: 1;
+            color: #333;
+            font-size: 14px;
+            line-height: 1.4;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            /* show up to 4 lines */
+            -webkit-box-orient: vertical;
+        }
+
+        .action-btn {
+            display: flex;
+            justify-content: flex-end;
+            gap: 20px;
+        }
+
+        .action-btn button {
+            border: none;
+            color: #fff;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        /* Back button */
+        .view-note {
+            background: #2ecc71;
+        }
+
+        .view-note:hover {
+            background: #27ae60;
+        }
+
+        /* Delete button */
+        .delete-note {
+            background: #e74c3c;
+        }
+
+        .delete-note:hover {
+            background: #c0392b;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                margin: 20px auto;
+                padding: 10px;
+            }
+
+            .container {
+                padding: 15px;
+            }
+
+            .note-footer {
+                flex-direction: column;
+            }
+
+            .btn-back,
+            .btn-delete {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Delete Note</h1>
+
+        <div class="warning">
+            <strong>Are you sure you want to delete this note?</strong>
+            <p>This action cannot be undone.</p>
+        </div>
+
+        <section class="note-card">
+            <!-- NOTE_CONTENT -->
+        </section>
+    </div>
+</body>
+
+</html>
