@@ -13,7 +13,7 @@
 
         body {
             font-family: system-ui, sans-serif;
-            background: #f5f6fa;
+            background: linear-gradient(135deg, #af49ffbf, #31aaff);
             margin: 0;
             padding: 0;
             color: #333;
@@ -82,7 +82,6 @@
             overflow-y: auto;
             padding: 10px;
             margin-top: 10px;
-            background: #f9f9f9;
             scroll-behavior: smooth;
         }
 
@@ -174,6 +173,32 @@
             background: #c0392b;
         }
 
+        ::-webkit-scrollbar,
+        ::-webkit-scrollbar-track,
+        ::-webkit-scrollbar-thumb {
+            all: unset;
+        }
+
+        /* size */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        /* track */
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        /* thumb */
+        ::-webkit-scrollbar-thumb {
+            background: #555;
+            border-radius: 8px;
+        }
+
+        /* hover */
+        ::-webkit-scrollbar-thumb:hover {
+            background: #333;
+        }
 
 
         /* FOOTER */
@@ -181,7 +206,7 @@
             text-align: center;
             margin-top: 20px;
             font-size: 13px;
-            color: #777;
+            color: #323232;
         }
     </style>
 </head>
